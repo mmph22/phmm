@@ -15,7 +15,7 @@
         {% do log("Inserting from: " ~ relation ~ " | Test: " ~ test_name ~ " | Type: " ~ error_type, info=True) %}
 
         INSERT INTO {{ env_var('DBT_AUDIT_DB') }}.{{ env_var('DBT_AUDIT_SCHEMA') }}.FAILED_TEST_RECORDS (
-          job_name,
+          error_des,
           error_type,
           failure_data,
           inserted_at
