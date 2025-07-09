@@ -39,16 +39,17 @@ models:
             target_filter: "@value"
           additional_filter:
             2: '2'
-
+          # recon:
+          #  +schema: "{{ env_var('DBT_ROW_CNT_RECON_TBL') }}" 
     config:
-      src_name: "Raw"
-      stage: "Silver"
-      ops_upd: "UPD"
-      ops_ins: "INS"
-      status_success: "Success"
-      status_start: "Started"
-      status_fail: "Failed"
-      proc_typ_msg_start: "SL_LOAD_START"
-      proc_typ_msg_success: "SL_LOAD_COMPLETE"
-      integration_id: ''
-      flag: 'Y'
+        src_name: "Raw"
+        stage: "Silver"
+    ops_upd: "UPD"
+    ops_ins: "INS"
+    status_success: "Success"
+    status_start: "Started"
+    status_fail: "Failed"
+    proc_typ_msg_start: "SL_LOAD_START"
+    proc_typ_msg_success: "SL_LOAD_COMPLETE"
+    integration_id: ''
+    flag: 'Y'
