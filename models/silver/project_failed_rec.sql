@@ -3,7 +3,7 @@
         materialized='table'
     )
 }}
-{% set source_model = ('raw', 'project') %}
+{% set source_model = ref ('raw', 'project') %}
 {% set target_model = 'stg_valid_customers' %}
 {% set error_table  = 'INSURANCE_DB.
 DBT_PH_STAGING' %}
