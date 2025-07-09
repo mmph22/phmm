@@ -41,14 +41,14 @@ models:
             2: '2'
 
     config:
-      src_name: "Adaptive_DISC_BDGT"
-      stage: "Bronze"
+      src_name: "Raw"
+      stage: "Silver"
       ops_upd: "UPD"
       ops_ins: "INS"
       status_success: "Success"
       status_start: "Started"
       status_fail: "Failed"
-      proc_typ_msg_start: "Started validation checks for Transient Table"
-      proc_typ_msg_success: "validation checks for Transient Table are successfull"
+      proc_typ_msg_start: "SL_LOAD_START"
+      proc_typ_msg_success: "SL_LOAD_COMPLETE"
       integration_id: ''
       flag: 'Y'
