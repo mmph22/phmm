@@ -4,6 +4,8 @@
 
 {{ config(
     materialized='incremental',
+    incremental_strategy='merge',
+    unique_key=pk_column,
     on_schema_change='sync_all_columns',
 
     pre_hook=[
@@ -43,7 +45,6 @@
         ) }}"
     ]
 ) }}
-
 
 with max_batch as (
     {% if is_incremental() %}

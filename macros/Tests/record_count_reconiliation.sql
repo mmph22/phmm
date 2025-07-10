@@ -1,9 +1,14 @@
 {% macro record_count_reconiliation(model, compare_model, source_custom_query,target_custom_query, where_condition={}, count_multiplier={}) %}
+   
+    {% do log("WHERE BASE: " ~ where_condition.base, info=True) %}
+    {% do log("WHERE TARGET: " ~ where_condition.target, info=True) %}
 
     {% set source_where = where_condition.base if (where_condition.base|length) else '' %}
     {% set target_where = where_condition.target if (where_condition.target|length) else '' %}
     {% set source_multiplier = count_multiplier.base if (count_multiplier.base|length)  else 1 %}
     {% set target_multiplier = count_multiplier.target if (count_multiplier.target|length)  else 1 %}
+    {% do log("RECON SOURCE WHERE: " ~ source_where, info=True) %}
+    {% do log("RECON TARGET WHERE: " ~ target_where, info=True) %}
 
     {% if execute %}
 
