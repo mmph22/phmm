@@ -1,8 +1,9 @@
-{{ 
-  config( 
-    materialized='incremental', 
-  ) 
-}}
+{{ config(
+    materialized='incremental',
+    post_hook=[
+        "DELETE FROM {{ this }} WHERE batch_id = (SELECT max(batch_id) - 1 FROM {{ this }})"
+    ]
+) }}
 
 SELECT 
     {% if is_incremental() %}

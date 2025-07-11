@@ -1,6 +1,8 @@
+ -- depends_on: {{ ref('raw_claims') }}
+
 {% set pk_column = 'claim_id' %}
 {% set raw_table = ref('raw_claims') %}
-{% set batch_filter = "batch_id = (select max(batch_id) from " ~ this ~ ")" %}
+{% set batch_filter = "batch_id = (select coalesce(max(batch_id) + 1, 1) from " ~ this ~ ")" %}
 
 {{ config(
     materialized='incremental',
@@ -48,7 +50,7 @@
 
 with max_batch as (
     {% if is_incremental() %}
-        select coalesce(max(batch_id), 1) as batch_id_value from {{ this }}
+        select coalesce(max(batch_id) , 0) as batch_id_value from {{ this }}
     {% else %}
         select 1 as batch_id_value
     {% endif %}
