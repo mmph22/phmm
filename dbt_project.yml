@@ -26,7 +26,7 @@ models:
 on-run-end:
   - "{{ centralize_test_failures(results) }}"
   - "{{ insert_failed_tests(results) }}"
-
+  # - "{{ run_hash_comparison() }}"
 tests:
   +store_failures: true
   +schema: "{{ env_var('DBT_AUDIT_SCHEMA') }}"
