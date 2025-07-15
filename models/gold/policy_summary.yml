@@ -19,5 +19,5 @@ models:
       status_fail: "Failed"
       proc_typ_msg_start: "SL_LOAD_START"
       proc_typ_msg_success: "SL_LOAD_COMPLETE"
-      integration_id: ''
+      integration_id: 'SAP'
       flag: 'Y'

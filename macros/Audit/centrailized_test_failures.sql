@@ -14,12 +14,11 @@
 
     INSERT INTO {{ env_var('DBT_AUDIT_DB') }}.{{ env_var('DBT_AUDIT_SCHEMA') }}.ADT_FPA_ERR_DETAIL (
       audit_id, ERROR_DES, data_source, process_type, stage,
-      severity, error_type, error_detail, insert_ts, load_id,
-      extract_ts, integration_id
+      severity, error_type, error_detail, insert_ts, extract_ts
     ) VALUES (
       0, '{{ job_name }}', '{{ data_source | replace("'", "''") }}', 'Validation', 'SL',
       '{{ severity }}', '{{ error_type }}', '{{ error_detail | replace("'", "''") }}',
-      CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, NULL
+      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
     );
   {% endfor %}
 {% endmacro %}
