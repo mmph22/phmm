@@ -16,6 +16,13 @@ models:
               config:
                 store_failures: true
 
+          - dbt_expectations.expect_column_values_to_not_be_null:
+              config:
+                store_failures: true
+          - dbt_expectations.expect_column_values_to_be_unique:
+              config:
+                store_failures: true
+
       - name: policy_id
         description: Foreign key to policy
         tests:

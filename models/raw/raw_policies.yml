@@ -19,11 +19,28 @@ models:
                 severity: warn
                 store_failures: true
 
+          - dbt_expectations.expect_column_values_to_not_be_null:
+              config:
+                severity: warn
+                store_failures: true
+
+          - dbt_expectations.expect_column_values_to_be_unique:
+              config:
+                severity: warn
+                store_failures: true
+
+
       - name: policy_type
         description: Type of policy (Health, Life, Auto)
         tests:
           - expect_column_values_to_be_in_list:
               values: ['Health', 'Life', 'Auto']
+              config:
+                severity: warn
+                store_failures: true
+
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: ['Health', 'Life', 'Auto']
               config:
                 severity: warn
                 store_failures: true
