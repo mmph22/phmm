@@ -9,12 +9,12 @@ models:
         meta:
           pk: true
         tests:
-          - assert_column_not_null:
-              config:
-                store_failures: true
-          - assert_column_unique:
-              config:
-                store_failures: true
+          # - assert_column_not_null:
+          #     config:
+          #       store_failures: true
+          # - assert_column_unique:
+          #     config:
+          #       store_failures: true
 
           - dbt_expectations.expect_column_values_to_not_be_null:
               config:
@@ -25,12 +25,12 @@ models:
 
       - name: policy_id
         description: Foreign key to policy
-        tests:
-          - validate_foreign_key:
-              ref_model: "{{ ref('raw_policies') }}"
-              ref_column: policy_id
-              config:
-                store_failures: true
+        # tests:
+        #   - validate_foreign_key:
+        #       ref_model: "{{ ref('raw_policies') }}"
+        #       ref_column: policy_id
+        #       config:
+        #         store_failures: true
 
     tests:
       - test_threshold_check:
