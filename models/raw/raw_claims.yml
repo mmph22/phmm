@@ -38,4 +38,12 @@ models:
         #         severity: warn
         #         store_failures: true
       
-        
+
+      - name: claim_status
+        description: status of the claim
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: ['Approved', 'Pending', 'Rejected']
+              config:
+                severity: warn
+                store_failures: true

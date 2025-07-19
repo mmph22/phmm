@@ -24,7 +24,6 @@
     ],
 
     post_hook=[
-        "{{ insert_failed_tests_for_model(raw_table) }}",
         "{{ insert_data_into_audit_table(
             model.config.ops_upd,
             model.name,

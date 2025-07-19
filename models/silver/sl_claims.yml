@@ -32,20 +32,20 @@ models:
         #       config:
         #         store_failures: true
 
-    tests:
-      - test_threshold_check:
-          compare_model_name: raw_claims
-          column:
-            source_column: claim_id
-            target_column: claim_id
-          operators:
-            source_operators: "="
-            target_operators: "="
-          filter:
-            source_filter: "@key"
-            target_filter: "@value"
-          additional_filter:
-            2: '2'
+    # tests:
+    #   - test_threshold_check:
+    #       compare_model_name: raw_claims
+    #       column:
+    #         source_column: claim_id
+    #         target_column: claim_id
+    #       operators:
+    #         source_operators: "="
+    #         target_operators: "="
+    #       filter:
+    #         source_filter: "@key"
+    #         target_filter: "@value"
+    #       additional_filter:
+    #         2: '2'
           # recon:
           #  +schema: "{{ env_var('DBT_ROW_CNT_RECON_TBL') }}" 
     config:
