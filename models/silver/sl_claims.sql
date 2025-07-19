@@ -1,4 +1,4 @@
- -- depends_on: {{ ref('raw_claims') }}
+-- depends_on: {{ ref('raw_claims') }}
 
 {% set pk_column = 'claim_id' %}
 {% set raw_table = ref('raw_claims') %}
@@ -10,7 +10,7 @@
     unique_key=pk_column,
     on_schema_change='sync_all_columns',
 
-    pre_hook=[
+    pre_hook=[ 
         "{{ insert_data_into_audit_table(
             model.config.ops_ins,
             model.name,
@@ -24,6 +24,7 @@
     ],
 
     post_hook=[
+        "{{ insert_failed_tests_for_model(raw_table) }}",
         "{{ insert_data_into_audit_table(
             model.config.ops_upd,
             model.name,
