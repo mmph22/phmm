@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: sl_policies
+    description: Silver layer for policies
+    columns:
+      - name: policy_id
+        description: Primary key
+        meta:
+          pk: true
+        # tests:
+        #   - assert_column_not_null:
+        #       config:
+        #         store_failures: true
+        #   - assert_column_unique:
+        #       config:
+        #         store_failures: true
+
+      # - name: policy_type
+      #   tests:
+      #     - expect_column_values_to_be_in_list:
+      #         values: ['Health', 'Life', 'Auto']
+      #         config:
+      #           store_failures: true
+    config:
+      src_name: "Raw"
+      stage: "Silver"
+      ops_upd: "UPD"
+      ops_ins: "INS"
+      status_success: "Success"
+      status_start: "Started"
+      status_fail: "Failed"
+      proc_typ_msg_start: "SL_LOAD_START"
+      proc_typ_msg_success: "SL_LOAD_COMPLETE"
+      integration_id: 'SAP'
+      flag: 'Y'

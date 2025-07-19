@@ -6,7 +6,7 @@
   {% set filter = kwargs.get("filter", kwargs.get("arg")) %}
   {% set additional_filter = kwargs.get("additional_filter", kwargs.get("arg")) %}
   {% set v_cfg_tbl_name = "adt_fpa_config" %}
-  {% set v_fq_cfg_tbl_name = env_var('DBT_SF_SILVER_DB') ~ '.' ~ env_var('DBT_SF_SILVER_FPA_DATA') ~ '.' ~ v_cfg_tbl_name %}
+  {% set v_fq_cfg_tbl_name = env_var('DBT_AUDIT_DB') ~ '.' ~ env_var('DBT_AUDIT_SCHEMA') ~ '.' ~ v_cfg_tbl_name %}
   {% set final_query = namespace(query="") %}
     -- depends_on: {{ ref(compare_model_name) }}
 

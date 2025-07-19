@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: sl_claims
+    description: Silver layer for claims
+    columns:
+      - name: claim_id
+        description: Primary key
+        meta:
+          pk: true
+        tests:
+          # - assert_column_not_null:
+          #     config:
+          #       store_failures: true
+          # - assert_column_unique:
+          #     config:
+          #       store_failures: true
+
+          - dbt_expectations.expect_column_values_to_not_be_null:
+              config:
+                store_failures: true
+          - dbt_expectations.expect_column_values_to_be_unique:
+              config:
+                store_failures: true
+
+      - name: policy_id
+        description: Foreign key to policy
+        # tests:
+        #   - validate_foreign_key:
+        #       ref_model: "{{ ref('raw_policies') }}"
+        #       ref_column: policy_id
+        #       config:
+        #         store_failures: true
+
+    tests:
+      - test_threshold_check:
+          compare_model_name: raw_claims
+          column:
+            source_column: claim_id
+            target_column: claim_id
+          operators:
+            source_operators: "="
+            target_operators: "="
+          filter:
+            source_filter: "@key"
+            target_filter: "@value"
+          additional_filter:
+            2: '2'
+          # recon:
+          #  +schema: "{{ env_var('DBT_ROW_CNT_RECON_TBL') }}" 
+    config:
+        src_name: "Raw"
+        stage: "Silver"
+        ops_upd: "UPD"
+        ops_ins: "INS"
+        status_success: "Success"
+        status_start: "Started"
+        status_fail: "Failed"
+        proc_typ_msg_start: "SL_LOAD_START"
+        proc_typ_msg_success: "SL_LOAD_COMPLETE"
+        integration_id: 'SAP'
+        flag: 'Y'

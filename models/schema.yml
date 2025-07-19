@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw
+    database: "{{ env_var('DBT_AUDIT_DB') }}"
+    schema: raw
+    tables:
+      - name: policies
+        description: Source table for policies
+      - name: claims
+        description: Source table for claims
+    

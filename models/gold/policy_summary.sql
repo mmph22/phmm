@@ -1,11 +1,23 @@
 {{ config(
-    materialized = 'view',
-    pre_hook = [
-      "{{ insert_data_into_audit_table('INS', model.name, 'sl', none, 'GL_LOAD_START', 'gl', 'SAP', 'Y') }}"
-    ],
-    post_hook = [
-      "{{ insert_data_into_audit_table('UPD', model.name, 'sl', 'SUCCESS', 'GL_LOAD_COMPLETE', 'gl', '', '') }}"
-    ]
+    materialized='view',
+    pre_hook="{% set status = insert_data_into_audit_table(
+        model.config.ops_ins,
+        model.name,
+        model.config.src_name,
+        model.config.status_start,
+        model.config.proc_typ_msg_start,
+        model.config.stage,
+        model.config.integration_id,
+        model.config.flag
+    ) %}",post_hook=["{% set status = insert_data_into_audit_table(
+        model.config.ops_upd,
+        model.name,
+        model.config.src_name,      
+        model.config.status_success,
+        model.config.proc_typ_msg_success,
+        model.config.stage,
+        model.config.integration_id,
+        '') %}"]
 ) }}
 
 SELECT
