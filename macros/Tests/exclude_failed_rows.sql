@@ -1,4 +1,4 @@
-{% macro exclude_failed_rows(source_relation, pk_column) %}
+{% macro exclude_failed_rows(source_relation, pk_column, min_batch_id=none) %}
     {% set source_table_name = source_relation.identifier %}
     {% set source_schema_name = source_relation.schema %}
     {% set full_table_name = source_relation.database ~ '.' ~ source_schema_name ~ '.' ~ source_table_name %}
@@ -7,14 +7,20 @@
     {% set pk_col_upper = pk_column | upper %}
 
     {% do log("Running exclude_failed_rows for table: " ~ full_table_name, info=True) %}
-    {% do log("Using PK column: " ~ pk_column, info=True) %}
+    {% do log("Using PK column: " ~ pk_col_upper, info=True) %}
     {% do log("Audit schema: " ~ audit_schema, info=True) %}
+    {% if min_batch_id is not none %}
+        {% do log("Filtering failures with batch_id > " ~ min_batch_id, info=True) %}
+    {% endif %}
 
     {% set failed_rows_cte %}
         SELECT DISTINCT
-            failure_data:{{ pk_col_upper }}::STRING AS failed_pk
+            failure_data:"{{ pk_col_upper }}"::STRING AS failed_pk
         FROM {{ audit_db }}.{{ audit_schema }}.FAILED_TEST_RECORDS
-        WHERE table_name ILIKE '{{ full_table_name }}'
+        WHERE table_name LIKE '{{ full_table_name }}'
+          {% if min_batch_id is not none %}
+            AND TRY_TO_NUMBER(failure_data:"BATCH_ID"::STRING) > {{ min_batch_id }}
+          {% endif %}
     {% endset %}
 
     {% set final_query %}
@@ -22,7 +28,7 @@
             {{ failed_rows_cte }}
         )
         SELECT * FROM {{ source_relation }} base
-        WHERE CAST({{ pk_column }} AS STRING) NOT IN (SELECT failed_pk FROM failed_rows)
+        WHERE CAST(base.{{ pk_col_upper }} AS STRING) NOT IN (SELECT failed_pk FROM failed_rows)
     {% endset %}
 
     {{ return(final_query) }}

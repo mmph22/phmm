@@ -47,3 +47,24 @@ models:
               config:
                 severity: warn
                 store_failures: true
+
+      - name: claim_amount
+        tests:
+          - dbt_expectations.expect_column_max_to_be_between:
+              min_value: 1 
+              max_value: 1 
+              config:
+                severity: warn
+                store_failures: true
+          - dbt_expectations.expect_column_distinct_count_to_be_greater_than:
+              value: 10
+              config:
+                severity: warn
+                store_failures: true
+          - dbt_expectations.expect_column_value_lengths_to_be_between:
+              min_value: 1 
+              max_value: 4 
+              config:
+                severity: warn
+                store_failures: true
+

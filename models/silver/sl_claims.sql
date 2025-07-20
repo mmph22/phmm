@@ -52,12 +52,24 @@ with max_batch as (
     {% if is_incremental() %}
         select coalesce(max(batch_id) , 0) as batch_id_value from {{ this }}
     {% else %}
-        select 1 as batch_id_value
+        select 0 as batch_id_value
     {% endif %}
 ),
 
 filtered as (
-    {{ exclude_failed_rows(raw_table, pk_column) }}
+
+    {% set batch_query %}
+        {% if is_incremental() %}
+            SELECT COALESCE(MAX(batch_id), 0) AS batch_id_value FROM {{ this }}
+        {% else %}
+            SELECT 0 AS batch_id_value
+        {% endif %}
+    {% endset %}
+
+    {% set batch_result = run_query(batch_query) %}
+    {% set batch_id_value = batch_result.columns[0].values()[0] if batch_result and batch_result.columns[0].values() | length > 0 else 0 %}
+
+    {{ exclude_failed_rows(raw_table, pk_column, batch_id_value) }}
 ),
 
 with_batch_id as (
